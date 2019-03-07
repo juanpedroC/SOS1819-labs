@@ -1,0 +1,42 @@
+  1  ls
+    2  this is a module for ...
+    3  mkdir Practica 2
+    4  mkdir Practica004
+    5  cd
+    6  exit
+    7  ls
+    8  mkdir l05
+    9  cd l0
+   10  npm init
+   11  touch index.js
+   12  ls
+   13  ls l05
+   14  cd l05
+   15  npm init
+   16  touch index.js
+   17  pwd
+   18  npm install 
+   19  npm install help
+   20  npm install express
+   21  npm -help
+   22  npm help
+   23  npm install -l express
+   24  npm install express --save 
+   25  git push
+   26  git commit
+   27  git pull
+   28  git push
+   29  git add l05/
+   30  git commit -m "Commit for "l05" folder."
+   31  ls
+   32  exit
+   33  ls
+   34  git add l05/
+   35  git commit -m "Commit to 'l05' folder."
+   36  git push
+   37  Nano Facultad Informatica Amigo Vicent Alfonso, [07.03.19 12:27]
+   38  git config credential.helper store
+   39  git add f01/
+   40  git commit -m "Commit to 'f01' folder."
+   41  git push
+   42  history
