@@ -5,8 +5,8 @@ var app = express();
 var port = (process.env.PORT || 8080);
 
 app.use("/",
-        express.static("./home/ubuntu/workspace/l05"))
-//        express.static(__dirname+  "./public"))
+//        express.static("./home/ubuntu/workspace/l05"))
+       express.static(__dirname+  "./public"))
 
 app.get("/time", (request, response) => 
    {
