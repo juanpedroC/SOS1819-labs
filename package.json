@@ -1,0 +1,19 @@
+{
+  "name": "workspace",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juanpedroC/SOS1819-labs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juanpedroC/SOS1819-labs/issues"
+  },
+  "homepage": "https://github.com/juanpedroC/SOS1819-labs#readme"
+}
