@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/juanpedroC/SOS1819-labs.git"
   },
-  "author": "",
+  "author": "juanpedroC",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/juanpedroC/SOS1819-labs/issues"
