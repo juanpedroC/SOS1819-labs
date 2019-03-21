@@ -1,5 +1,9 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+var mongodb = require("mongodb");
+var MongoClient = mongodb.MongoClient;
+
+var mdbURL = "mongodb://test:";
 
 var app = express();
 
