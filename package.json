@@ -6,7 +6,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mongodb": "^3.1.13"
+    "heroku": "^7.22.7",
+    "mongodb": "^3.2.2"
   },
   "devDependencies": {},
   "scripts": {
