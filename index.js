@@ -69,7 +69,7 @@ app.get("/api/v1/beer-consumed-stats/loadInitialData", (req, res) => {
         var beerStat4 = Object.create(BeerStat);
         var beerStat5 = Object.create(BeerStat);
         
-        beerStat1.initBeerStat("españa", 2016, 84.8, 2, 3909);
+        beerStat1.initBeerStat("espania", 2016, 84.8, 2, 3909);
         beerStat2.initBeerStat("alemania", 2016, 104.2, -0.5, 8412);
         beerStat3.initBeerStat("lituania", 2016, 88.7, -8.4, 257);
         beerStat4.initBeerStat("corea del sur", 2016, 42.8, 0.3, 2160);
