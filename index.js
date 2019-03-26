@@ -60,8 +60,8 @@ var BeerStat = {
 }
 
 
-//GET /api/v1/beer-consumed-BeerStats/loadInitialData
-app.get("/api/v1/beer-consumed-BeerStats/loadInitialData", (req, res) => {
+//GET /api/v1/beer-consumed-stats/loadInitialData
+app.get("/api/v1/beer-consumed-stats/loadInitialData", (req, res) => {
     
         var beerStat1 = Object.create(BeerStat);
         var beerStat2 = Object.create(BeerStat);
@@ -102,8 +102,8 @@ app.get("/api/v1/beer-consumed-BeerStats/loadInitialData", (req, res) => {
 );
 
 
-//GET /api/v1/beer-consumed-BeerStats (DEVUELVE UNA LISTA CON TODOS LOS RECURSOS)
-app.get("/api/v1/beer-consumed-BeerStats", (req, res) => {
+//GET /api/v1/beer-consumed-stats (DEVUELVE UNA LISTA CON TODOS LOS RECURSOS)
+app.get("/api/v1/beer-consumed-stats", (req, res) => {
     
           beer_stats.find({}).toArray( (err, beer_stats_array) => {
                 
@@ -121,8 +121,8 @@ app.get("/api/v1/beer-consumed-BeerStats", (req, res) => {
     }
 );
 
-//POST /api/v1/beer-consumed-BeerStats (CREA UN NUEVO RECURSO)
-app.post("/api/v1/beer-consumed-BeerStats", (req, res) => {
+//POST /api/v1/beer-consumed-stats (CREA UN NUEVO RECURSO)
+app.post("/api/v1/beer-consumed-stats", (req, res) => {
         
         var newStat = req.body;
         
@@ -149,8 +149,8 @@ app.post("/api/v1/beer-consumed-BeerStats", (req, res) => {
     }
 );
 
-//GET /api/v1/beer-consumed-BeerStats/--reurso-- (DEVUELVE UN RECURSO CONCRETO)
-app.get("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
+//GET /api/v1/beer-consumed-stats/--reurso-- (DEVUELVE UN RECURSO CONCRETO)
+app.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         var country = req.params.country;
         
@@ -176,8 +176,8 @@ app.get("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
     }
 );
 
-//DELETE /api/v1/beer-consumed-BeerStats/--reurso-- (BORRA UN RECURSO CONCRETO)
-app.delete("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
+//DELETE /api/v1/beer-consumed-stats/--reurso-- (BORRA UN RECURSO CONCRETO)
+app.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         var country = req.params.country;
         var found = false;
@@ -205,8 +205,8 @@ app.delete("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
     }
 );
 
-//PUT /api/v1/beer-consumed-BeerStats/--reurso-- (ACTUALIZA UN RECURSO CONCRETO)
-app.put("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
+//PUT /api/v1/beer-consumed-stats/--reurso-- (ACTUALIZA UN RECURSO CONCRETO)
+app.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         var country = req.params.country;
         var updatedBeerStat = req.body;
@@ -234,16 +234,16 @@ app.put("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
     }
 );
 
-//POST /api/v1/beer-consumed-BeerStats/--reurso-- (ERROR METODO NO PERMITIDO)
-app.post("/api/v1/beer-consumed-BeerStats/:country", (req, res) => {
+//POST /api/v1/beer-consumed-stats/--reurso-- (ERROR METODO NO PERMITIDO)
+app.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         console.log("<h1>FATAL ERROR !!: Method not Allowed.</h1>");
         res.sendBeerStatus(405);
     }
 );
 
-//PUT /api/v1/beer-consumed-BeerStats (ERROR METODO NO PERMITIDO)
-app.put("/api/v1/beer-consumed-BeerStats", (req, res) => {
+//PUT /api/v1/beer-consumed-stats (ERROR METODO NO PERMITIDO)
+app.put("/api/v1/beer-consumed-stats", (req, res) => {
         
         console.log("<h1>FATAL ERROR !!: Method not Allowed.</h1>");
         res.sendBeerStatus(405);
@@ -251,8 +251,8 @@ app.put("/api/v1/beer-consumed-BeerStats", (req, res) => {
     }
 );
 
-//DELETE /api/v1/beer-consumed-BeerStats (BORRA TODOS LOS RECURSOS)
-app.delete("/api/v1/beer-consumed-BeerStats", (req, res) => {
+//DELETE /api/v1/beer-consumed-stats (BORRA TODOS LOS RECURSOS)
+app.delete("/api/v1/beer-consumed-stats", (req, res) => {
         
         beer_stats.remove({});
         console.log("<h1>Request accepted, removing all resources of database.</h1>");
