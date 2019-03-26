@@ -21,23 +21,6 @@ client_beer_stats.connect(err => {
   console.log("Connected!");
 });
 
-
-/*
-const uri_suicide_stats = "mongodb+srv://test:test@sos1819-04-afg-ysoip.mongodb.net/test?retryWrites=true";
-const client_suicide_stats = new MongoClient(uri_suicide_stats, { useNewUrlParser: true });
-
-const uri_beer_stats = "mongodb+srv://test:test@sos1819-04-afg-ysoip.mongodb.net/test?retryWrites=true";
-const client_beer_stats = new MongoClient(uri_beer_stats, { useNewUrlParser: true });
-
-client_happiness_stats.connect(err => {
-    
-    if(err) console.log("Error:", err);
-    happiness_stats = client_happiness_stats.db("sos1819").collection("happiness-stats");
-    console.log("Connected!");
-  
-});
-*/
-
 /* JP
   ======================
  |  API REST DE JUAN PEDRO  |
