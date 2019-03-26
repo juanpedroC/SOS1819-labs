@@ -10,6 +10,17 @@ app.use(bodyParser.json());
 //CONECTARSE A LA BASE DE DATOS
 var beer_stats;
 const MongoClient = require("mongodb").MongoClient;
+const uri_beer_stats = "mongodb+srv://test:test@sosjpcc-usex1.mongodb.net/test?retryWrites=true";
+const client_beer_stats = new MongoClient(uri_beer_stats, { useNewUrlParser: true });
+
+
+client_beer_stats.connect(err => {
+  if(err) console.log("error: " , err);
+  beer_stats = client_beer_stats.db("sos-jpcc").collection("beers");
+  // perform actions on the collection object
+  console.log("Connected!");
+});
+
 
 /*
 const uri_suicide_stats = "mongodb+srv://test:test@sos1819-04-afg-ysoip.mongodb.net/test?retryWrites=true";
