@@ -1,21 +1,22 @@
+//CREACIÓN DEL SERVIDOR WEB
 var express = require("express");
-var bodyParser = require("body-parser");
-var mongodb = require("mongodb");
-var MongoClient = mongodb.MongoClient;
-
-
-
 var app = express();
+const port = process.env.PORT || 8080;
 
+//USO DEL PAQUETE BODY-PARSER PARA MOSTRAR CORRECTAMENTE EL JSON
+var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
-
+//CONECTARSE A LA BASE DE DATOS
 var beer_stats;
+const MongoClient = require("mongodb").MongoClient;
+
 /*
+const uri_suicide_stats = "mongodb+srv://test:test@sos1819-04-afg-ysoip.mongodb.net/test?retryWrites=true";
+const client_suicide_stats = new MongoClient(uri_suicide_stats, { useNewUrlParser: true });
+
 const uri_beer_stats = "mongodb+srv://test:test@sos1819-04-afg-ysoip.mongodb.net/test?retryWrites=true";
 const client_beer_stats = new MongoClient(uri_beer_stats, { useNewUrlParser: true });
-var mdbURL = "mongodb://test:";
 
 client_happiness_stats.connect(err => {
     
