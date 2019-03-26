@@ -27,9 +27,16 @@ client_beer_stats.connect(err => {
   ======================
 */
 
+/*
 //DOCUMENTACION /api/v1/suicide-rates/docs (REDIRIGE A LA DOCUMENTACIÓN DE LA API REST)
+const suicide_rates_docs_URL = "https://documenter.getpostman.com/view/6964339/S17nVBQh";
+app.get("/api/v1/suicide-rates/docs", (req, res) => {
 
-
+        res.redirect(suicide_rates_docs_URL);
+            
+    }
+);
+*/
 
 //CREACIÓN DEL OBJETO "BeerStat"
 var BeerStat = {
