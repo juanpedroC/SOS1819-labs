@@ -144,42 +144,51 @@ router.post("/", (req, res) => {
         if(checkSuicideStatsJSON(newStat)){
         
         
-       beer_stats.find({"country": newStat["country"],"year": newStat["year"]}).toArray( (err, beer_stats_array) => {
+            beer_stats.find({"country": newStat["country"],"year": newStat["year"]}).toArray( (err, beer_stats_array) => {
             
-                if(err) console.log("FATAL ERROR !!: ", err);
+                    if(err) console.log("FATAL ERROR !!: ", err);
                 
-        if(Object.keys(newStat).length == 5){
-                
-                if(beer_stats_array == 0){
+                    if(beer_stats_array == 0){
                     
-                    beer_stats.insert(newStat);
-                    console.log("[beeeer-stats] Request accepted, creating new resource in database.");
-                    res.sendStatus(201);
+                        beer_stats.insert(newStat);
+                        console.log("[beeeer-stats] Request accepted, creating new resource in database.");
+                        res.sendStatus(201);
                     
-                } else {
+                     } else {
                     
-                    console.log("[beeeer-stats] FATAL ERROR !!: Resource already exists in the database.");
-                    res.sendStatus(409);
-                    
+                        console.log("[beeeer-stats] FATAL ERROR !!: Resource already exists in the database.");
+                        res.sendStatus(409);
                 }
+                });
         } else {
-                    
-                    console.log("[beeeer-stats] FATAL ERROR !!: The input fields are not expected.");
+                    //console.log("[beeeer-stats] FATAL ERROR !!: The input fields are not expected.");
                     res.sendStatus(400);
-                    
-                }
-            
-            }
-        );
+        }
     }
 );
 
 //GET /api/v1/beer-consumed-stats/--reurso-- (DEVUELVE UN RECURSO CONCRETO)
-router.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.get(":country/:year", (req, res) => {
         
-       var country = req.params.country;
+        //Paginación
+        var limit = parseInt(req.query.limit, 10);
+        var offset = parseInt(req.query.offset, 10);
         
-         beer_stats.find( {"country": country} ).toArray( (err, beer_stats_array) => {
+        //Vistas Personalizadas
+        var fields = {"_id": 0};
+        
+        if(req.query.fields){
+            req.query.fields.split(",").forEach((f) => {
+                fields[f] = 1;
+                });
+        }
+        
+        //GET
+        var country = req.params.country;
+        var year = parseInt(req.params.year);
+        console.log(country, year);
+        
+        beer_stats.find( {"country": country, "year": year} ).toArray( (err, beer_stats_array) => {
             
                 if(err) console.log("FATAL ERROR !!: ", err);
                 
@@ -202,12 +211,13 @@ router.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //DELETE /api/v1/beer-consumed-stats/--reurso-- (BORRA UN RECURSO CONCRETO)
-router.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.delete("/:country/:year", (req, res) => {
         
         var country = req.params.country;
+        var year = parseInt(req.params.year);
         var found = false;
         
-        beer_stats.find( {"country": country} ).toArray( (err, beer_stats_array) =>{
+        beer_stats.find( {"country": country, "year": year} ).toArray( (err, beer_stats_array) =>{
             
                 if(err) console.log("[beeeer-stats] FATAL ERROR: ", err);
                 
@@ -231,34 +241,41 @@ router.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //PUT /api/v1/beer-consumed-stats/--reurso-- (ACTUALIZA UN RECURSO CONCRETO)
-router.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.put("/:country/:year", (req, res) => {
         
        var country = req.params.country;
+        var year = parseInt(req.params.year);
         var updatedBeerStat = req.body;
         
-        if(country == updatedBeerStat["country"]){
-        beer_stats.find( {"country": country} ).toArray( (err, beer_stats_array) => {
+        if(checkSuicideStatsJSON(updatedBeerStat)){
+        
+            if(country == updatedBeerStat["country"] && year == updatedBeerStat["year"]){
+                beer_stats.find( {"country": country, "year": year} ).toArray( (err, beer_stats_array) => {
                 
-                if(err) console.log("[beeeer-stats] FATAL ERROR: ", err);
+                    if(err) console.log("[beeeer-stats] FATAL ERROR: ", err);
                 
-                if(beer_stats_array.length > 0){
+                    if(beer_stats_array.length > 0){
                     
-                    beer_stats.update( {"country": country}, updatedBeerStat );
-                    console.log("[beeeer-stats] Request accepted, updating resource of database.");
-                    res.sendStatus(200);
+                        beer_stats.update( {"country": country}, updatedBeerStat );
+                        console.log("[beeeer-stats] Request accepted, updating resource of database.");
+                        res.sendStatus(200);
                     
-                } else {
+                    } else {
                     
-                    console.log("[beeeer-stats] FATAL ERROR : Resource not found in database.");
-                    res.sendStatus(404);
+                        console.log("[beeeer-stats] FATAL ERROR : Resource not found in database.");
+                        res.sendStatus(404);
                     
-                }
+                    }
             
+                }
+            );
+            } else {
+            
+                console.log("[beeeer-stats] FATAL ERROR : Resource addressed is not the same as resouced trying to modify.");
+                res.sendStatus(400);
             }
-        );
         } else {
             
-            console.log("[beeeer-stats] FATAL ERROR : Resource addressed is not the same as resouced trying to modify.");
             res.sendStatus(400);
         }
         
@@ -266,7 +283,7 @@ router.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //POST /api/v1/beer-consumed-stats/--reurso-- (ERROR METODO NO PERMITIDO)
-router.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.post("/:country/:year", (req, res) => {
         
         console.log("[beeeer-stats] FATAL ERROR !!: Method not Allowed.");
         res.sendStatus(405);
@@ -274,7 +291,7 @@ router.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //PUT /api/v1/beer-consumed-stats (ERROR METODO NO PERMITIDO)
-router.put("/api/v1/beer-consumed-stats", (req, res) => {
+router.put("/", (req, res) => {
     
         console.log("[beeeer-stats] FATAL ERROR !!: Method not Allowed.");
         res.sendStatus(405);
@@ -282,7 +299,7 @@ router.put("/api/v1/beer-consumed-stats", (req, res) => {
 );
 
 //DELETE /api/v1/beer-consumed-stats (BORRA TODOS LOS RECURSOS)
-router.delete("/api/v1/beer-consumed-stats", (req, res) => {
+router.delete("/", (req, res) => {
         
         beer_stats.remove({});
         console.log("[beeeer-stats] Request accepted, removing all resources of database.");
