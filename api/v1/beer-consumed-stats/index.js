@@ -8,7 +8,7 @@ var initMongo = require("./scripts/initMongo");
 var beer_stats = initMongo();
 */
 
-//Base de datos beer-stats
+//Base de datos /beer-consumed-stats
 var beer_stats;
 const MongoClient = require("../../../node_modules/mongodb").MongoClient;
 const uri_beer_stats = "mongodb+srv://test:test@sosjpcc-usex1.mongodb.net/test?retryWrites=true";
