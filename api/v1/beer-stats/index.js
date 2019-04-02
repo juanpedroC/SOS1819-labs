@@ -116,7 +116,7 @@ router.get("/", (req, res) => {
         var fields = {"_id": 0};
         
         if(req.query.fields){
-            req.query.fields.split(",").forEach( (f) => {
+            req.query.fields.split(",").forEach((f) => {
                 fields[f] = 1;
                 });
         }
