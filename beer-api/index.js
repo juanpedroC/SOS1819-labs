@@ -1,16 +1,22 @@
 const express = require("../node_modules/express");
 const router = express.Router();
 
-const v1 = require("./v1");
-const v2 = require("./v2");
+//CONECTARSE A LA BASE DE DATOS
 
-router.use("/v1", v1);
-router.use("/v2", v2);
+//Base de datos beer-stats
+var beer_stats;
+const MongoClient = require("../../../node_modules/mongodb").MongoClient;
+const uri_beer_stats = "mongodb+srv://test:test@sosjpcc-usex1.mongodb.net/test?retryWrites=true";
+const client_beer_stats = new MongoClient(uri_beer_stats, { useNewUrlParser: true });
 
-module.exports = router;
 
-
-//A partir de aqui lo nuevo, igual hay que borrar lo de arriba.
+client_beer_stats.connect(err => {
+  if(err) console.log("error: " , err);
+  //tengo que cambiar la direccion de "sos-jpcc"
+  beer_stats = client_beer_stats.db("sos-jpcc").collection("beers");
+  // perform actions on the collection object
+  console.log("Connected the beer!");
+});
 
 
 /* JP
@@ -19,14 +25,23 @@ module.exports = router;
   ~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+//MÓDULO QUE COMPRUEBA LOS DATOS DE LOS JSON
+var checkSuicideStatsJSON = require("./scripts/checkJSON");
+
+
 //DOCUMENTACION /api/v1/beer-consumed-stats/docs (REDIRIGE A LA DOCUMENTACIÓN DE LA API REST)
+//cambiar .get
 const beer_consumed_stats_URL = "https://documenter.getpostman.com/view/7063342/S17usmpE";
-app.get("/api/v1/beer-consumed-stats/docs", (req, res) => {
+router.get("/api/v1/beer-consumed-stats/docs", (req, res) => {
 
         res.redirect(beer_consumed_stats_URL);
             
     }
 );
+
+//MÓDULO PARA USAR JSON
+var bodyParser = require("../../../node_modules/body-parser");
+router.use(bodyParser.json());
 
 //CREACIÓN DEL OBJETO "BeerStat"
 var BeerStat = {
@@ -40,9 +55,9 @@ var BeerStat = {
 }
 
 //GET /api/v1/beer-consumed-stats/loadInitialData
-app.get("/api/v1/beer-consumed-stats/loadInitialData", (req, res) => {
+router.get("/loadInitialData", (req, res) => {
     
-  var beerStat1 = Object.create(BeerStat);
+        var beerStat1 = Object.create(BeerStat);
         var beerStat2 = Object.create(BeerStat);
         var beerStat3 = Object.create(BeerStat);
         var beerStat4 = Object.create(BeerStat);
@@ -83,8 +98,29 @@ app.get("/api/v1/beer-consumed-stats/loadInitialData", (req, res) => {
 
 
 //GET /api/v1/beer-consumed-stats (DEVUELVE UNA LISTA CON TODOS LOS RECURSOS)
-app.get("/api/v1/beer-consumed-stats", (req, res) => {
+router.get("/", (req, res) => {
     
+     //Paginación
+        var limit = parseInt(req.query.limit, 10);
+        var offset = parseInt(req.query.offset, 10);
+    
+      //Búsquedas
+        var search = {}
+        if(req.query.country) search["country"] = req.query.country;
+        if(req.query.year) search["year"] = parseInt(req.query.year);
+        if(req.query.rating) search["rating"] = parseInt(req.query.rating);
+        if(req.query.variation) search["variation"] = parseInt(req.query.variation);
+        if(req.query.countryConsumition) search["countryConsumition"] = parseInt(req.query.countryConsumition);
+        
+        //Vistas Personalizadas
+        var fields = {"_id": 0};
+        
+        if(req.query.fields){
+            req.query.fields.split(",").forEach( (f) => {
+                fields[f] = 1;
+                });
+        }
+       //GET 
        beer_stats.find({}).toArray( (err, beer_stats_array) => {
                 
                 if (err) {
@@ -102,9 +138,11 @@ app.get("/api/v1/beer-consumed-stats", (req, res) => {
 );
 
 //POST /api/v1/beer-consumed-stats (CREA UN NUEVO RECURSO)
-app.post("/api/v1/beer-consumed-stats", (req, res) => {
+router.post("/", (req, res) => {
         
         var newStat = req.body;
+        if(checkSuicideStatsJSON(newStat)){
+        
         
        beer_stats.find({"country": newStat["country"],"year": newStat["year"]}).toArray( (err, beer_stats_array) => {
             
@@ -137,7 +175,7 @@ app.post("/api/v1/beer-consumed-stats", (req, res) => {
 );
 
 //GET /api/v1/beer-consumed-stats/--reurso-- (DEVUELVE UN RECURSO CONCRETO)
-app.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
        var country = req.params.country;
         
@@ -164,7 +202,7 @@ app.get("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //DELETE /api/v1/beer-consumed-stats/--reurso-- (BORRA UN RECURSO CONCRETO)
-app.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         var country = req.params.country;
         var found = false;
@@ -193,7 +231,7 @@ app.delete("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //PUT /api/v1/beer-consumed-stats/--reurso-- (ACTUALIZA UN RECURSO CONCRETO)
-app.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
        var country = req.params.country;
         var updatedBeerStat = req.body;
@@ -228,7 +266,7 @@ app.put("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //POST /api/v1/beer-consumed-stats/--reurso-- (ERROR METODO NO PERMITIDO)
-app.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
+router.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
         
         console.log("[beeeer-stats] FATAL ERROR !!: Method not Allowed.");
         res.sendStatus(405);
@@ -236,7 +274,7 @@ app.post("/api/v1/beer-consumed-stats/:country", (req, res) => {
 );
 
 //PUT /api/v1/beer-consumed-stats (ERROR METODO NO PERMITIDO)
-app.put("/api/v1/beer-consumed-stats", (req, res) => {
+router.put("/api/v1/beer-consumed-stats", (req, res) => {
     
         console.log("[beeeer-stats] FATAL ERROR !!: Method not Allowed.");
         res.sendStatus(405);
@@ -244,10 +282,12 @@ app.put("/api/v1/beer-consumed-stats", (req, res) => {
 );
 
 //DELETE /api/v1/beer-consumed-stats (BORRA TODOS LOS RECURSOS)
-app.delete("/api/v1/beer-consumed-stats", (req, res) => {
+router.delete("/api/v1/beer-consumed-stats", (req, res) => {
         
         beer_stats.remove({});
         console.log("[beeeer-stats] Request accepted, removing all resources of database.");
         res.sendStatus(200);
     }
 );
+
+module.exports = router;
