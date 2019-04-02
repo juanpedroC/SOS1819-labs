@@ -36,7 +36,6 @@ app.use("/",
 const api = require("./api");
 app.use("/api", api);
 
-
 //CREACIÓN DEL RECURSO '/time' QUE DEVUELVE LA HORA DEL SERVIDOR
 app.get("/time",(req,res)=>{
     

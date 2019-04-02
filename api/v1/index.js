@@ -13,7 +13,7 @@ const router = express.Router();
 
 
 
-const beer_stats = require("./beer_stats");
-router.use("/beer_stats", beer_stats);
+const beer_stats = require("./beer-stats");
+router.use("/beer-stats", beer_stats);
 
 module.exports = router;
