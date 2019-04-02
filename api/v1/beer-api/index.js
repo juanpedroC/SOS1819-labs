@@ -28,16 +28,11 @@ client_beer_stats.connect(err => {
 //MÓDULO QUE COMPRUEBA LOS DATOS DE LOS JSON
 var checkSuicideStatsJSON = require("./scripts/checkJSON");
 
-
 //DOCUMENTACION /api/v1/beer-consumed-stats/docs (REDIRIGE A LA DOCUMENTACIÓN DE LA API REST)
-//cambiar .get
 const beer_consumed_stats_URL = "https://documenter.getpostman.com/view/7063342/S17usmpE";
-router.get("/api/v1/beer-consumed-stats/docs", (req, res) => {
-
+router.get("/docs", (req, res) => {
         res.redirect(beer_consumed_stats_URL);
-            
-    }
-);
+    });
 
 //MÓDULO PARA USAR JSON
 var bodyParser = require("../../../node_modules/body-parser");
@@ -121,7 +116,7 @@ router.get("/", (req, res) => {
                 });
         }
        //GET 
-       beer_stats.find({}).toArray( (err, beer_stats_array) => {
+        beer_stats.find(search, {"fields": fields}).skip(offset).limit(limit).toArray( (err, beer_stats_array) => {
                 
                 if (err) {
                     console.log("[beeeer-stats] FATAL ERROR !! : ", err);
@@ -188,22 +183,18 @@ router.get(":country/:year", (req, res) => {
         var year = parseInt(req.params.year);
         console.log(country, year);
         
-        beer_stats.find( {"country": country, "year": year} ).toArray( (err, beer_stats_array) => {
-            
+        beer_stats.find( {"country": country, "year": year},{"fields": fields}).skip(offset).limit(limit).toArray( (err, beer_stats_array) => {
                 if(err) console.log("FATAL ERROR !!: ", err);
                 
                 if(beer_stats_array.length  > 0){
-                    
                     console.log("[beeeer-stats] Request accepted, sending resource from database.");
                     res.send(beer_stats_array[0]);
                     
                 } else {
-                    
                     console.log("[beeeer-stats] Request accepted, removing resource of database.");
                     res.sendStatus(404);
                     
                 }
-            
             }
         );
         
