@@ -11,8 +11,9 @@ module.exports = function (app) {
 const express = require("../../node_modules/express");
 const router = express.Router();
 
-const suicide_rates = require("./suicide-rates");
 
-router.use("/suicide-rates", suicide_rates);
+
+const beer_stats = require("./beer_stats");
+router.use("/beer_stats", beer_stats);
 
 module.exports = router;

@@ -1,7 +1,12 @@
-const express = require("../node_modules/express");
+const express = require("../../../node_modules/express");
 const router = express.Router();
 
 //CONECTARSE A LA BASE DE DATOS
+
+/*//MÓDULO QUE CONECTA CON LA BASE DE DATOS
+var initMongo = require("./scripts/initMongo");
+var beer_stats = initMongo();
+*/
 
 //Base de datos beer-stats
 var beer_stats;
@@ -26,7 +31,7 @@ client_beer_stats.connect(err => {
 */
 
 //MÓDULO QUE COMPRUEBA LOS DATOS DE LOS JSON
-var checkSuicideStatsJSON = require("./scripts/checkJSON");
+var checkBeerStatsJSON = require("./scripts/checkJSON");
 
 //DOCUMENTACION /api/v1/beer-consumed-stats/docs (REDIRIGE A LA DOCUMENTACIÓN DE LA API REST)
 const beer_consumed_stats_URL = "https://documenter.getpostman.com/view/7063342/S17usmpE";
@@ -136,7 +141,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
         
         var newStat = req.body;
-        if(checkSuicideStatsJSON(newStat)){
+        if(checkBeerStatsJSON(newStat)){
         
         
             beer_stats.find({"country": newStat["country"],"year": newStat["year"]}).toArray( (err, beer_stats_array) => {
@@ -238,7 +243,7 @@ router.put("/:country/:year", (req, res) => {
         var year = parseInt(req.params.year);
         var updatedBeerStat = req.body;
         
-        if(checkSuicideStatsJSON(updatedBeerStat)){
+        if(checkBeerStatsJSON(updatedBeerStat)){
         
             if(country == updatedBeerStat["country"] && year == updatedBeerStat["year"]){
                 beer_stats.find( {"country": country, "year": year} ).toArray( (err, beer_stats_array) => {
