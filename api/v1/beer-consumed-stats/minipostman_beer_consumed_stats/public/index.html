@@ -1,36 +1,79 @@
 <html ng-app="MiniPostmanApp">
-    <head>
-        <title>Mini Postman</title>
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" >
-        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="/bower_components/angular/angular.min.js"></script>
-        <script>
-            /* global angular $scope*/
-        
-            var app = angular.module("MiniPostmanApp",[]);
-            console.log("MiniPostmanApp initialized!");
-            
-            app.controller("MainCtrl", ["$scope","$http", function ($scope,$http){
-                console.log("MainCtrl initialized!");
-                $scope.url = "/api/v1/contacts";
-                
-                $scope.send = function (){
-                    $http.get($scope.url).then(function (response){
-                        $scope.data = JSON.stringify(response.data,null,2);
-                    });
-                }
-            }]);
-        </script>
-    </head>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mini Postman</title>
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script src="minipostman-app.js"></script>
+    <script src="main-ctrl.js"></script>
+
+    <style>
+        html,
+        body,
+        h5,
+        h6,
+        h1 {
+            font-family: "Roboto", sans-serif;
+        }
+    </style>
+</head>
+
+
+<body ng-controller="MainCtrl">
+    <h1>My minipostman Beer</h1>
+    <!-- BEGIN -->
+
+    <!-- END -->
+    <div>
+        <!-- API -->
+        <label>URL:
+                <input class="form-control text-center" ng-model="url"/>
+        </label>
+
+        <button class="btn btn-primary" ng-click="send()">Send</button>
+
+        </button>
+        <button class="btn btn btn-secondary" ng-click="loadInitialData()">
+                            Load Initial Data
+                    </button>
+        <button class="btn btn btn-secondary" ng-click="put()">
+                            Put
+                    </button>
+        <button class="btn btn btn-secondary" ng-click="post()">
+                            Post
+                    </button>
+        <button class="btn btn btn-secondary" ng-click="delete()">
+                            Delete
+        </button>
+    </div>
+    <div>
+        <h6>Country:</h6>
+        <input class="form-control text-center" ng-model="country" />
+        <h6>Year:</h6>
+        <input class="form-control text-center" ng-model="year" />
+        <h6>Rating:</h6>
+        <input class="form-control text-center" ng-model="rating" />
+        <h6>Variation:</h6>
+        <input class="form-control text-center" ng-model="variation" />
+        <h6>Country consumition:</h6>
+        <input class="form-control text-center" ng-model="countryConsumition" />
+    </div>
+    <div style="padding-top:20px">
+        <label>
+            <h5 style="color: black">
+                STATUS CODE:
+            </h5>
+        </label>
+        <textarea class="form-control" ng-model="status" rows="1">
+        </textarea>
+    </div>
     
-    <body ng-controller="MainCtrl">
-        <h1>My minipostman</h1>
-        <div>
-            <label>URL:<input class="form-control text-center" ng-model="url"/></label>
-            <button class="btn btn-primary" ng-click="send()">Send</button>
-        </div>
-        <div>
-            <textarea class="form-control" rows="20" ng-model="data"></textarea>
-        </div>
-    </body>
+    <div>
+        <textarea class="form-control" rows="20" ng-model="data"></textarea>
+    </div>
+
+</body>
+
 </html>

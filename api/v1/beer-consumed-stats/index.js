@@ -8,6 +8,9 @@ var initMongo = require("./scripts/initMongo");
 var beer_stats = initMongo();
 */
 
+const minipostman_beer_consumed_stats = require("./minipostman_beer_consumed_stats");
+router.use("/minipostman_bc", minipostman_beer_consumed_stats);
+
 //Base de datos /beer-consumed-stats
 var beer_stats;
 const MongoClient = require("../../../node_modules/mongodb").MongoClient;
