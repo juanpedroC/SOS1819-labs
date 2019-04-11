@@ -26,6 +26,26 @@
                 <tr ng-repeat="contact in contacts">
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.phone }}</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <input 
+                        class = "form-control"
+                        value="new name"
+                        />
+                    </td>
+                    <td>
+                        <input
+                        class = "form-control"
+                        value="new phone"
+                        />
+                    </td>
+                    <td><button
+                        class="btn btn-primary"
+                        ng-click="add()";
+                        >ADD</button></td>
                 </tr>
             </tbody>
             
