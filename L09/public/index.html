@@ -1,36 +1,35 @@
-<html ng-app="MiniPostmanApp">
+<html ng-app="ContactsApp">
+    
     <head>
-        <title>Mini Postman</title>
-        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" >
-        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="/bower_components/angular/angular.min.js"></script>
-        <script>
-            /* global angular $scope*/
+        <title>Contacts APP</title>
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
         
-            var app = angular.module("MiniPostmanApp",[]);
-            console.log("MiniPostmanApp initialized!");
-            
-            app.controller("MainCtrl", ["$scope","$http", function ($scope,$http){
-                console.log("MainCtrl initialized!");
-                $scope.url = "/api/v1/contacts";
-                
-                $scope.send = function (){
-                    $http.get($scope.url).then(function (response){
-                        $scope.data = JSON.stringify(response.data,null,2);
-                    });
-                }
-            }]);
-        </script>
+        <script type="text/javascript" src="contacts-app.js"></script>
+        <script type="text/javascript" src="main-ctrl.js"></script>
     </head>
     
     <body ng-controller="MainCtrl">
-        <h1>My minipostman</h1>
-        <div>
-            <label>URL:<input class="form-control text-center" ng-model="url"/></label>
-            <button class="btn btn-primary" ng-click="send()">Send</button>
-        </div>
-        <div>
-            <textarea class="form-control" rows="20" ng-model="data"></textarea>
-        </div>
+        
+        <h1>Contacts</h1>
+        
+        <table class="table">
+            
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr ng-repeat="contact in contacts">
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.phone }}</td>
+                </tr>
+            </tbody>
+            
+        </table>
+        
     </body>
 </html>
