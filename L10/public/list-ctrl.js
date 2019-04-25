@@ -2,8 +2,8 @@
 
     angular
         .module("ContactsApp")
-        .controller("MainCtrl",["$scope","$http", function ($scope,$http){
-            console.log("Main Controller initialized.");
+        .controller("ListCtrl",["$scope","$http", function ($scope,$http){
+            console.log("List Controller initialized.");
             var API = "/api/v1/contacts";
             
             refresh();

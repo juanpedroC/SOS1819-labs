@@ -1,0 +1,26 @@
+<h1>Edit Contact</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ contact.name }}</td>
+            <td>
+                <input 
+                    class="form-control" 
+                    ng-model="contact.phone"
+                />
+            <td>
+                <button 
+                    class="btn btn-primary"
+                    ng-click="updateContact(contact.name)";
+                >Update</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
